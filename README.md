@@ -29,7 +29,7 @@
 
 - Two-Stage(One-box localization 모델 + Classification 모델) 방식으로 해결
     
-    ![Untitled](IITP%20%E1%84%87%E1%85%AE%E1%84%89%E1%85%B3%E1%84%87%E1%85%A1%E1%86%AF%E1%84%91%E1%85%AD%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%20821ce6db5fa54f568ab86dd1a279e04b/Untitled.png)
+    ![Untitled](slides/Untitled.png)
     
 - 데이터셋 확보 전략
     - 크라우드 소싱을 통해 원천 이미지 수집 후 내부에서 레이블링 진행
@@ -40,15 +40,15 @@
         - pretrained model weight를 활용하기 위하여 efficientnet, rexnet, resnet 등 여러 네트워크들을 backbone으로 사용함.
 - 데이터셋 증폭 전략
     
-    ![dsafs.png](IITP%20%E1%84%87%E1%85%AE%E1%84%89%E1%85%B3%E1%84%87%E1%85%A1%E1%86%AF%E1%84%91%E1%85%AD%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%20821ce6db5fa54f568ab86dd1a279e04b/dsafs.png)
+    ![dsafs.png](slides/dsafs.png)
     
 - 추론결과 시각화
     
-    ![Untitled](IITP%20%E1%84%87%E1%85%AE%E1%84%89%E1%85%B3%E1%84%87%E1%85%A1%E1%86%AF%E1%84%91%E1%85%AD%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%20821ce6db5fa54f568ab86dd1a279e04b/Untitled%201.png)
+    ![Untitled](slides/Untitled%201.png)
     
 - Abulation study
     
-    ![Untitled](IITP%20%E1%84%87%E1%85%AE%E1%84%89%E1%85%B3%E1%84%87%E1%85%A1%E1%86%AF%E1%84%91%E1%85%AD%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%20821ce6db5fa54f568ab86dd1a279e04b/Untitled%202.png)
+    ![Untitled](slides/Untitled%202.png)
     
 
 ## 3단계 핵심 아이디어
@@ -62,13 +62,13 @@
 - 아키텍처 선택
     - One-stage detector로 추론속도 및 처리 속도 면에서 우수한 성능을 보이는 Yolo계열 모델, 아키텍처 탐색을 통해 기존 fpn 형태를 개선한 EfficietDet, transformer 기반 decoder를 통해 anchor 등과 같은 후처리 알고리즘을 없애고 object detection 문제를 direct set prediction 문제로써 해결하는 (deformable)DETR등 존재하는 다양한 아키텍처 중, 본 테스크에 가장 적합한 아키텍처를 선택하기 위하여 다양한 조건에서 학습을 수행하였으며, 성능지표 및 추론속도 지표에서 모두 높은 성능을 보이는 YOLO 계열 모델로 아키텍처를 선택하였음.
         
-        ![architecture_metric (1).png](IITP%20%E1%84%87%E1%85%AE%E1%84%89%E1%85%B3%E1%84%87%E1%85%A1%E1%86%AF%E1%84%91%E1%85%AD%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%20821ce6db5fa54f568ab86dd1a279e04b/architecture_metric_(1).png)
+        ![architecture_metric (1).png](slides/architecture_metric_(1).png)
         
 - 데이터셋 확보전략(Active Learning + Pre-labeling Method)
     - Object detection 문제에서 가장 많은 비용이 들어가는 것은 데이터셋 제작임. 일반적으로 단순 분류문제를 풀기위한 데이터셋 제작에 비해 한 이미지 당 약 5~10배정도의 비용이 들어가며, 시간 및 필요인력 또한 비슷한 수준의 추가가 필요함. 뿐만 아니라 다양한 폐기물 관련 데이터셋을 보면 한 이미지를 다양한 각도에서 찍은 사진이 많고, 하나의 폐기물 객체를 여러 이미지에서 다른 구도로 재활용한 경우가 많아 데이터셋의 분포 다양성이 떨어지는 문제가 존재하였음.
     - 데이터셋 다양성이 불충분한 문제로 인하여 데이터셋을 늘려도 모델의 성능 증가폭이 적었으며, overfitting되는 문제가 발생하였음. 이러한 문제를 극복하기 위하여 **취약 샘플 분석을 통한 우선 레이블링 샘플 선택 알고리즘**을 개발하여 학습에 추가적으로 필요한 데이터를 선별적으로 제작할 수 있었음.
     
-    ![labeling_system (1).png](IITP%20%E1%84%87%E1%85%AE%E1%84%89%E1%85%B3%E1%84%87%E1%85%A1%E1%86%AF%E1%84%91%E1%85%AD%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%20821ce6db5fa54f568ab86dd1a279e04b/labeling_system_(1).png)
+    ![labeling_system (1).png](slides/labeling_system_(1).png)
     
 - 데이터 증폭 전략(배경합성 알고리즘을 이용한 데이터셋 증폭)
     - 자체 수집한 데이터셋은 대부분이 실내에서 촬영한 이미지라는 문제를 가지고 있었음. 실제 사용환경 및 Testset의 경우 야외 및 특수환경에서도 촬영될 수 있으나, 실제로 기보유한 데이터셋의 경우 야외 배경에서 매우 취약한 문제가 존재하였음. 이를 극복하기 위하여 random bbox 배경합성 알고리즘을 통해 데이터 증폭을 진행하였습니다. 과정은 아래와 같음.
@@ -76,7 +76,7 @@
         2. 폐기물 이미지에 대하여 Augmentation 적용 후 bbox에 random margin을 주고 cropping
         3. cropping 된 object set에서 random하게 오브젝트들을 query 하여 1의 배경에 합성
         
-        ![synthesis_images (1).png](IITP%20%E1%84%87%E1%85%AE%E1%84%89%E1%85%B3%E1%84%87%E1%85%A1%E1%86%AF%E1%84%91%E1%85%AD%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%20821ce6db5fa54f568ab86dd1a279e04b/synthesis_images_(1).png)
+        ![synthesis_images (1).png](slides/synthesis_images_(1).png)
         
     - 합성 이미지 수/비율 증가에 따른 성능지표
         
@@ -128,12 +128,12 @@
     - OCR 모델을 활용하여 모든 글자를 인식
     - predefined json에 존재하는 간판들과 OCR output 들과의 유사도를 계산하여 가장 유사도가 높은 간판 위치정보를 확보. 이 때 같은 간판에 대해서 서로다른 place 정보에 대해서 유사도가 가장 높다면 유사도가 높은 place 만 남기고 나머지는 삭제
         
-        ![그림1.png](IITP%20%E1%84%87%E1%85%AE%E1%84%89%E1%85%B3%E1%84%87%E1%85%A1%E1%86%AF%E1%84%91%E1%85%AD%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%20821ce6db5fa54f568ab86dd1a279e04b/%25E1%2584%2580%25E1%2585%25B3%25E1%2584%2585%25E1%2585%25B5%25E1%2586%25B71.png)
+        ![그림1.png](slides/%25E1%2584%2580%25E1%2585%25B3%25E1%2584%2585%25E1%2585%25B5%25E1%2586%25B71.png)
         
 3. 실신 사람 추출
     1. 이미지에서 아래와 같이 5개의 패치를 추출하고, 각 패치에서 사람을 추출 
         
-        ![그림12png.png](IITP%20%E1%84%87%E1%85%AE%E1%84%89%E1%85%B3%E1%84%87%E1%85%A1%E1%86%AF%E1%84%91%E1%85%AD%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%20821ce6db5fa54f568ab86dd1a279e04b/%25E1%2584%2580%25E1%2585%25B3%25E1%2584%2585%25E1%2585%25B5%25E1%2586%25B712png.png)
+        ![그림12png.png](slides/%25E1%2584%2580%25E1%2585%25B3%25E1%2584%2585%25E1%2585%25B5%25E1%2586%25B712png.png)
         
     2. 추출한 사람이미지의 bbox의 height/width가 0.7이하이고, 각 패치의 가장자리가 아닐 때 해당 bbox를 저장 - 중복 인식 방지
     3. 각 이미지에서의 복수의 실신한 사람 정보를 확보
@@ -144,7 +144,7 @@
         - 조회된 간판이 여러개일 경우 그 중 place 정보와 유사도가 가장 높은 간판을 선택
         - 조회된 간판이 없는 경우 간판 무게중심의 x좌표(x2)와 x1사이의 거리가 가장 짧은 간판을 선택
     
-    ![그림2.png](IITP%20%E1%84%87%E1%85%AE%E1%84%89%E1%85%B3%E1%84%87%E1%85%A1%E1%86%AF%E1%84%91%E1%85%AD%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%20821ce6db5fa54f568ab86dd1a279e04b/%25E1%2584%2580%25E1%2585%25B3%25E1%2584%2585%25E1%2585%25B5%25E1%2586%25B72.png)
+    ![그림2.png](slides/%25E1%2584%2580%25E1%2585%25B3%25E1%2584%2585%25E1%2585%25B5%25E1%2586%25B72.png)
     
 
 
@@ -262,7 +262,7 @@ for scene in scene_list:
 
 - `inital_prompt` 를 활용하면 대화체로 인식이 훨씬 잘됨
     
-    ![위 : initial_prompt 없을 때 인식 결과. 몇몇 발화가 하나의 발화로 묶임. 아래 : initla_prompt를 넣어줬을 때. 정확하게 발화 문장 별로 분리됨](IITP%20%E1%84%87%E1%85%AE%E1%84%89%E1%85%B3%E1%84%87%E1%85%A1%E1%86%AF%E1%84%91%E1%85%AD%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%20821ce6db5fa54f568ab86dd1a279e04b/Untitled_(25).png)
+    ![위 : initial_prompt 없을 때 인식 결과. 몇몇 발화가 하나의 발화로 묶임. 아래 : initla_prompt를 넣어줬을 때. 정확하게 발화 문장 별로 분리됨](slides/Untitled_(25).png)
     
     위 : initial_prompt 없을 때 인식 결과. 몇몇 발화가 하나의 발화로 묶임. 아래 : initla_prompt를 넣어줬을 때. 정확하게 발화 문장 별로 분리됨
     
@@ -270,7 +270,7 @@ for scene in scene_list:
     
     방송에서 `Thank you for your unique style` 이라고 언급했는데 음성 인식 후 모델 내부에서 한국어로 번역도 하는 모습을 볼 수 있음 
     
-    ![Untitled](IITP%20%E1%84%87%E1%85%AE%E1%84%89%E1%85%B3%E1%84%87%E1%85%A1%E1%86%AF%E1%84%91%E1%85%AD%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%20821ce6db5fa54f568ab86dd1a279e04b/Untitled%203.png)
+    ![Untitled](slides/Untitled%203.png)
     
 
 **폭력 분류기**
@@ -297,7 +297,7 @@ for scene in scene_list:
 3. 좌표값 기반으로 1,2를 이용하여 어떤 쓰레기통에 어떤 클래스인지를 감지
 4. 각 쓰레기통 입구 영역별 크롭된 프레임에 대해서 사람이 쓰레기를 버리는 순간을 감지하는 모델 
     
-    ![Untitled](IITP%20%E1%84%87%E1%85%AE%E1%84%89%E1%85%B3%E1%84%87%E1%85%A1%E1%86%AF%E1%84%91%E1%85%AD%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%20821ce6db5fa54f568ab86dd1a279e04b/Untitled%204.png)
+    ![Untitled](slides/Untitled%204.png)
     
 5. 감지된 순간에 해당 쓰레기통에서 들어가고있는 쓰레기를 분류하는 모델
     - 기존 확보 데이터셋을 합성하는 방식으로 데이터셋 제작
